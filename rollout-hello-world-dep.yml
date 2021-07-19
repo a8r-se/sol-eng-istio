@@ -1,0 +1,51 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Rollout
+metadata:
+  annotations:
+    getambassador.io/rolloutId: c215701b-f5c9-477c-a3d7-9f6363310cf2
+  creationTimestamp: null
+  labels:
+    app: hello
+  name: hello
+  namespace: test
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: hello
+  strategy:
+    canary:
+      canaryService: hello-canary
+      stableService: hello
+      steps:
+      - setWeight: 30
+      - pause:
+          duration: 40
+      - setWeight: 60
+      - pause:
+          duration: 40
+      - setWeight: 90
+      - pause:
+          duration: 40
+      trafficRouting:
+        ambassador:
+          mappings:
+          - hello
+  template:
+    metadata:
+      annotations:
+        config.linkerd.io/skip-outbound-ports: 8081,8022,6001
+      creationTimestamp: null
+      labels:
+        app: hello
+    spec:
+      containers:
+      - image: docker.io/datawire/hello-world:latest
+        name: hello
+        ports:
+        - containerPort: 8000
+          name: http
+        resources: {}
+status:
+  blueGreen: {}
+  canary: {}
