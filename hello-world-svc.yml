@@ -1,0 +1,30 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: hello
+  namespace: test
+  labels:
+    app: hello
+  annotations:
+    a8r.io/description: "Retrieves user cart, prepares order and orchestrates the payment, shipping and the email notification. Lanaguage = Go"
+    a8r.io/owner: "Sales Engineering - Matt Turner"
+    a8r.io/chat: "#ambassador"
+    a8r.io/bugs: "https://github.com/datawire/ambassador/issues"
+    a8r.io/logs: "https://kibana.getambassador.io"
+    a8r.io/documentation: "https://www.getambassador.io/docs/latest/"
+    a8r.io/repository: "https://github.com/a8r-se/hello-world"
+    a8r.io/support: "http://d6e.co/slack"
+    a8r.io/runbook: "https://www.getambassador.io/docs/latest/topics/running/debugging/"
+    a8r.io/incidents: "https://incidents.getambassador.io"
+    a8r.io/uptime: "https://demo-aes.com/jaeger/trace/27262d9e851eff1aa886c4fca028af12"  # Update with appropriate value
+    a8r.io/performance: "https://linkerd.mturner.k736.net/grafana/d/deployment/linkerd-deployment?orgId=1&var-deployment=checkoutservice&var-namespace=boutique&refresh=1m"  # Update with appropriate value
+    a8r.io/dependencies: "currencyservice.boutique, frontend.boutique, checkoutservice.boutique, paymentservice.boutique, productcatalogservice.boutique, cartservice.boutique, shippingservice.boutique, adservice.boutique, redis-cart.boutique"
+spec:
+  selector:
+    app: hello
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: http              # Application port
+---
