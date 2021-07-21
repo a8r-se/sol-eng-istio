@@ -2,7 +2,7 @@ apiVersion: argoproj.io/v1alpha1
 kind: Rollout
 metadata:
   annotations:
-    getambassador.io/rolloutId: 12541060-4710-400c-905c-2d3fab6706ec
+    getambassador.io/rolloutId: 980901e8-24f0-42e2-8c5f-946fe5a2a073
   creationTimestamp: null
   labels:
     app: hello
@@ -18,12 +18,9 @@ spec:
       canaryService: hello-canary
       stableService: hello
       steps:
-      - setWeight: 50
+      - setWeight: 70
       - pause:
-          duration: 60
-      - setWeight: 100
-      - pause:
-          duration: 60
+          duration: 120
       trafficRouting:
         ambassador:
           mappings:
